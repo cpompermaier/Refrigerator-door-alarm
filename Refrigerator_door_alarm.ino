@@ -25,7 +25,8 @@ void wake() {
     detachInterrupt(digitalPinToInterrupt(SwitchPin)); 
 }
 
-void sleepNow() {  //Interrupt subroutine to set arduino in sleep mode      
+void sleepNow() {  //Interrupt subroutine to set arduino in sleep mode
+    BipDoorClosed(); //Give a feedback that the door was closed!
     set_sleep_mode(SLEEP_MODE_PWR_DOWN); // sleep mode is set here
     noInterrupts();          // make sure we don't get interrupted before we sleep
     sleep_enable();          // enables the sleep bit in the mcucr register
@@ -36,6 +37,19 @@ void sleepNow() {  //Interrupt subroutine to set arduino in sleep mode
     interrupts();           // interrupts allowed now, next instruction WILL be executed
     sleep_cpu();            // here the device is put to sleep
     //sleep_mode(); // here the device is actually put to sleep!!
+}
+
+void BipDoorClosed() {
+    int BipLength = 300; //ms
+    int BipGap = 200; //ms
+    
+    analogWrite(piezoPin, volume);
+    delay(BipLength);
+    digitalWrite(piezoPin, LOW);
+    delay(BipGap);
+    analogWrite(piezoPin, volume);
+    delay(BipLength);
+    digitalWrite(piezoPin, LOW);
 }
 
 bool read_door() {
