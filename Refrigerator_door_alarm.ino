@@ -40,8 +40,8 @@ void sleepNow() {  //Interrupt subroutine to set arduino in sleep mode
 }
 
 void BipDoorClosed() {
-    int BipLength = 300; //ms
-    int BipGap = 200; //ms
+    int BipLength = 100; //ms
+    int BipGap = 50; //ms
     
     analogWrite(piezoPin, volume);
     delay(BipLength);
@@ -50,6 +50,10 @@ void BipDoorClosed() {
     analogWrite(piezoPin, volume);
     delay(BipLength);
     digitalWrite(piezoPin, LOW);
+    delay(BipGap);
+    analogWrite(piezoPin, volume);
+    delay(BipLength);
+    digitalWrite(piezoPin, LOW); 
 }
 
 bool read_door() {
